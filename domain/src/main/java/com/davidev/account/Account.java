@@ -8,7 +8,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "account", schema = "dbo")
+@Table(name = "account", schema = "dbo", indexes = {
+        @Index(name = "UX_account_vat_country", columnList = "vat_number, country_id", unique = true)
+})
 public class Account {
 
     @Id
