@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Access(AccessType.FIELD)
 @Table(name = "account", schema = "dbo", indexes = {
         @Index(name = "UX_account_vat_country", columnList = "vat_number, country_id", unique = true)
 })
@@ -113,6 +116,12 @@ public class Account {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_id")
     private AppUser updatedBy;
+
+    @OneToMany(mappedBy = "AccountAddress")
+    private List<AccountAddress> accountAddressList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "SalesArea")
+    private List<SalesArea> salesAreaList = new ArrayList<>();
 
     public Account() {
     }
