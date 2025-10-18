@@ -90,11 +90,22 @@ public class SalesArea {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof SalesArea salesArea)) return false;
-        return Objects.equals(id, salesArea.id) && Objects.equals(market, salesArea.market) && Objects.equals(channel, salesArea.channel) && Objects.equals(salesOrg, salesArea.salesOrg) && Objects.equals(division, salesArea.division);
+        return Objects.equals(id, salesArea.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, market, channel, salesOrg, division);
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "SalesArea{" +
+                "id=" + id +
+                ", market='" + market + '\'' +
+                ", channel='" + channel + '\'' +
+                ", salesOrg='" + salesOrg + '\'' +
+                ", division='" + division + '\'' +
+                '}';
     }
 }

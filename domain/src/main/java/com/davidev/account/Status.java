@@ -50,12 +50,12 @@ public class Status {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Status status)) return false;
-        return Objects.equals(id, status.id) && Objects.equals(name, status.name);
+        return Objects.equals(id, status.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 
     @Override

@@ -67,12 +67,12 @@ public class Language {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Language language)) return false;
-        return Objects.equals(id, language.id) && Objects.equals(code, language.code) && Objects.equals(culture, language.culture);
+        return Objects.equals(id, language.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, culture);
+        return Objects.hash(id);
     }
 
     @Override

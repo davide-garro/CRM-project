@@ -17,26 +17,26 @@ public class Currency {
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
     private UUID id;
 
-    @Column(length = 32, nullable = false, unique = true)
-    private String name;
-
     @Column(length = 3, nullable = false, unique = true, columnDefinition = "CHAR(3)")
     @Size(min = 3, max = 3)
     @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant(alpha 3)")
     private String code;
 
+    @Column(length = 32, nullable = false, unique = true)
+    private String name;
+
     public Currency() {
     }
 
-    public Currency(String name, String code) {
-        this.name = name;
+    public Currency(String code, String name) {
         this.code = code;
+        this.name = name;
     }
 
-    public Currency(UUID id, String name, String code) {
+    public Currency(UUID id, String code, String name) {
         this.id = id;
-        this.name = name;
         this.code = code;
+        this.name = name;
     }
 
     public UUID getId() {
@@ -47,14 +47,6 @@ public class Currency {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public @Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant alpha 3") String getCode() {
         return code;
     }
@@ -63,16 +55,24 @@ public class Currency {
         this.code = code;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Currency currency)) return false;
-        return Objects.equals(id, currency.id) && Objects.equals(name, currency.name) && Objects.equals(code, currency.code);
+        return Objects.equals(id, currency.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, code);
+        return Objects.hash(id);
     }
 
     @Override

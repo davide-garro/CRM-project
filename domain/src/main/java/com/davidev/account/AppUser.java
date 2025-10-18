@@ -128,12 +128,12 @@ public class AppUser {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof AppUser appUser)) return false;
-        return Objects.equals(id, appUser.id) && Objects.equals(subject, appUser.subject) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(fullName, appUser.fullName) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(group, appUser.group);
+        return Objects.equals(id, appUser.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subject, email, username, fullName, firstName, lastName, group);
+        return Objects.hash(id);
     }
 
     @Override

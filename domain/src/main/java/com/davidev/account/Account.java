@@ -504,12 +504,12 @@ public class Account {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Account account)) return false;
-        return isSynchronized == account.isSynchronized && isMaster == account.isMaster && isBlocked == account.isBlocked && Objects.equals(id, account.id) && Objects.equals(externalId, account.externalId) && Objects.equals(sourceSystem, account.sourceSystem) && Objects.equals(vatNumber, account.vatNumber) && Objects.equals(domesticVatNumber, account.domesticVatNumber) && Objects.equals(accountName, account.accountName) && Objects.equals(sector, account.sector) && Objects.equals(accountType, account.accountType) && Objects.equals(status, account.status) && Objects.equals(firmSize, account.firmSize) && Objects.equals(annualTurnover, account.annualTurnover) && Objects.equals(turnoverCurrency, account.turnoverCurrency) && Objects.equals(phone, account.phone) && Objects.equals(fax, account.fax) && Objects.equals(email, account.email) && Objects.equals(website, account.website) && Objects.equals(language, account.language) && Objects.equals(country, account.country) && Objects.equals(paymentTerms, account.paymentTerms) && Objects.equals(creditLimit, account.creditLimit) && Objects.equals(defaultCurrency, account.defaultCurrency) && Objects.equals(blockReason, account.blockReason) && Objects.equals(createdAt, account.createdAt) && Objects.equals(createdBy, account.createdBy) && Objects.equals(updatedAt, account.updatedAt) && Objects.equals(updatedBy, account.updatedBy);
+        return Objects.equals(id, account.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, externalId, sourceSystem, isSynchronized, isMaster, vatNumber, domesticVatNumber, accountName, sector, accountType, status, firmSize, annualTurnover, turnoverCurrency, phone, fax, email, website, language, country, paymentTerms, creditLimit, defaultCurrency, isBlocked, blockReason, createdAt, createdBy, updatedAt, updatedBy);
+        return Objects.hash(id);
     }
 
     @Override

@@ -63,12 +63,12 @@ public class PaymentTerms {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof PaymentTerms that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(code, that.code) && Objects.equals(name, that.name);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, name);
+        return Objects.hash(id);
     }
 
     @Override

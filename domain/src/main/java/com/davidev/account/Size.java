@@ -80,12 +80,12 @@ public class Size {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Size size)) return false;
-        return Objects.equals(id, size.id) && Objects.equals(range, size.range) && Objects.equals(label, size.label) && Objects.equals(segment, size.segment);
+        return Objects.equals(id, size.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, range, label, segment);
+        return Objects.hash(id);
     }
 
     @Override

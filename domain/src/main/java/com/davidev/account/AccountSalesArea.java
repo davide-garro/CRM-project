@@ -3,6 +3,7 @@ package com.davidev.account;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -99,5 +100,17 @@ public class AccountSalesArea {
 
     public void setValidTo(LocalDateTime validTo) {
         this.validTo = validTo;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof AccountSalesArea that)) return false;
+        return Objects.equals(accountSalesAreaId, that.accountSalesAreaId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountSalesAreaId);
     }
 }

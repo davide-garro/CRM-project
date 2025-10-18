@@ -50,12 +50,12 @@ public class Sector {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Sector sector)) return false;
-        return Objects.equals(id, sector.id) && Objects.equals(name, sector.name);
+        return Objects.equals(id, sector.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 
     @Override

@@ -130,12 +130,12 @@ public class Address {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Address address)) return false;
-        return Objects.equals(id, address.id) && Objects.equals(addressType, address.addressType) && Objects.equals(attention, address.attention) && Objects.equals(street, address.street) && Objects.equals(city, address.city) && Objects.equals(stateRegion, address.stateRegion) && Objects.equals(zipcode, address.zipcode) && Objects.equals(country, address.country);
+        return Objects.equals(id, address.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, addressType, attention, street, city, stateRegion, zipcode, country);
+        return Objects.hash(id);
     }
 
     @Override

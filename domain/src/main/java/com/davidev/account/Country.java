@@ -67,12 +67,12 @@ public class Country {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Country country1)) return false;
-        return Objects.equals(id, country1.id) && Objects.equals(code, country1.code) && Objects.equals(country, country1.country);
+        return Objects.equals(id, country1.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, country);
+        return Objects.hash(id);
     }
 
     @Override

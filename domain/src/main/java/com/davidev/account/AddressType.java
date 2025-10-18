@@ -50,12 +50,12 @@ public class AddressType {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof AddressType that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(value, that.value);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, value);
+        return Objects.hash(id);
     }
 
     @Override

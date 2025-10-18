@@ -3,6 +3,7 @@ package com.davidev.account;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "account_address", schema = "dbo")
@@ -99,5 +100,21 @@ public class AccountAddress {
 
     public void setValidTo(LocalDateTime validTo) {
         this.validTo = validTo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+       if(this == obj){
+           return true;
+       }
+       if(!(obj instanceof AccountAddress that)){
+           return false;
+        }
+        return Objects.equals(that.accountAddressId,this.accountAddressId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountAddressId);
     }
 }
