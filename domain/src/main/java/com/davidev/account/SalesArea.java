@@ -9,6 +9,7 @@ import java.util.UUID;
 @Table(name = "sales_area", schema = "dbo", indexes = {
         @Index(name = "IX_sales_area_dims", columnList = "market, channel, sales_org, division", unique = true)
 })
+@Access(AccessType.FIELD)
 public class SalesArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

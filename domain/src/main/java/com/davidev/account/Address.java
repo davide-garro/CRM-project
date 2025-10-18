@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "address", schema = "dbo")
+@Access(AccessType.FIELD)
 public class Address {
 
     @Id

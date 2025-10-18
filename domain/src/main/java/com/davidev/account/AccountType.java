@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "account_type", schema = "dbo")
+@Access(AccessType.FIELD)
 public class AccountType {
 
     @Id

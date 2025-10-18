@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "address_type", schema = "dbo")
+@Access(AccessType.FIELD)
 public class AddressType {
 
     @Id

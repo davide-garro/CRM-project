@@ -14,6 +14,7 @@ import java.util.UUID;
                 @Index(name = "IX_size_lbl_rng_seg", columnList = "label,[range],segment")
         }
 )
+@Access(AccessType.FIELD)
 public class Size {
 
     @Id

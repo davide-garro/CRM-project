@@ -117,11 +117,14 @@ public class Account {
     @JoinColumn(name = "updated_by_id")
     private AppUser updatedBy;
 
-    @OneToMany(mappedBy = "AccountAddress")
+    @OneToMany(mappedBy = "account_id")
     private List<AccountAddress> accountAddressList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "SalesArea")
-    private List<SalesArea> salesAreaList = new ArrayList<>();
+    @OneToMany(mappedBy = "account_id")
+    private List<AccountSalesArea> salesAreaList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account_id")
+    private List<AccountPartnerRole> partnerRoleList = new ArrayList<>();
 
     public Account() {
     }
@@ -419,6 +422,83 @@ public class Account {
 
     public void setUpdatedBy(AppUser updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public List<AccountAddress> getAccountAddressList() {
+        return accountAddressList;
+    }
+
+    public void setAccountAddressList(List<AccountAddress> accountAddressList) {
+        if (accountAddressList != null){
+            this.accountAddressList = accountAddressList;
+        }
+    }
+
+    public List<AccountSalesArea> getSalesAreaList() {
+        return salesAreaList;
+    }
+
+    public void setSalesAreaList(List<AccountSalesArea> salesAreaList) {
+        if(salesAreaList != null){
+            this.salesAreaList = salesAreaList;
+        }
+    }
+
+    public List<AccountPartnerRole> getPartnerRoleList() {
+        return partnerRoleList;
+    }
+
+    public void setPartnerRoleList(List<AccountPartnerRole> partnerRoleList) {
+        if(partnerRoleList != null){
+            this.partnerRoleList = partnerRoleList;
+        }
+    }
+
+    private void addToCollectionField(Object object){
+            switch (object){
+                case null -> throw new IllegalArgumentException("Cannot add a null value to the collection");
+                case AccountAddress accountAddress-> this.getAccountAddressList().add(accountAddress);
+                case AccountSalesArea accountSalesArea -> this.getSalesAreaList().add(accountSalesArea);
+                case AccountPartnerRole accountPartnerRole -> this.getPartnerRoleList().add(accountPartnerRole);
+                default -> throw new IllegalArgumentException("Cannot add object to the collection: invalid type object, expected one of the following: AccountAddress, AccountSalesArea, AccountPartnerRole");
+            }
+    }
+
+    private void removeFromCollection(Object object){
+        if(object == null){
+            throw new IllegalArgumentException("Cannot remove null value from the collection");
+        }
+        switch (object){
+            case AccountAddress accountAddress->
+                    this
+                            .getAccountAddressList()
+                            .removeIf((item -> {
+                                if(item.getAccountAddressId() == null){
+                                    throw new IllegalStateException("Cannot remove AccountAddress object from the collection: id cannot be null");
+                                }
+                                return item.getAccountAddressId().equals(accountAddress.getAccountAddressId());
+                            }));
+            case AccountSalesArea accountSalesArea->
+                    this
+                            .getSalesAreaList()
+                            .removeIf(item->{
+                                if(item.getAccountSalesAreaId() == null){
+                                    throw new IllegalStateException("Cannot remove AccountSalesArea object from the collection: id cannot be null");
+                                }
+                                return item.getAccountSalesAreaId().equals(accountSalesArea.getAccountSalesAreaId());
+                            });
+            case AccountPartnerRole accountPartnerRole->
+                    this
+                            .getPartnerRoleList()
+                            .removeIf(item->{
+                                if(item.getAccountPartnerRoleId() == null){
+                                    throw new IllegalStateException("Cannot remove AccountPartnerRole object from the collection: id cannot be null");
+                                }
+                                return item.getAccountPartnerRoleId().equals(accountPartnerRole.getAccountPartnerRoleId());
+                            });
+            default->
+                    throw new IllegalArgumentException("cannot remove object from the collection: invalid object type,expected one of the following: AccountAddress, AccountSalesArea, AccountPartnerRole");
+        }
     }
 
     @Override

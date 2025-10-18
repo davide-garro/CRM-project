@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "currency", schema = "dbo")
+@Access(AccessType.FIELD)
 public class Currency {
 
     @Id
@@ -21,7 +22,7 @@ public class Currency {
 
     @Column(length = 3, nullable = false, unique = true, columnDefinition = "CHAR(3)")
     @Size(min = 3, max = 3)
-    @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant alpha 3")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant(alpha 3)")
     private String code;
 
     public Currency() {

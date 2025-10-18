@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "payment_terms", schema = "dbo")
+@Access(AccessType.FIELD)
 public class PaymentTerms {
 
     @Id
@@ -14,7 +15,7 @@ public class PaymentTerms {
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
     private UUID id;
 
-    @Column(length = 16, unique = true, nullable = false)
+    @Column(length = 16, nullable = false, unique = true)
     private String code;
 
     @Column(length = 64, nullable = false)

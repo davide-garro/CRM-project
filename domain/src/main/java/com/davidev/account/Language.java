@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "[language]", schema = "dbo")
+@Access(AccessType.FIELD)
 public class Language {
 
     @Id

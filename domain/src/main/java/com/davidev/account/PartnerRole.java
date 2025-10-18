@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "partner_role", schema = "dbo")
+@Access(AccessType.FIELD)
 public class PartnerRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

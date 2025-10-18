@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "country", schema = "dbo")
+@Access(AccessType.FIELD)
 public class Country {
 
     @Id
@@ -21,7 +22,7 @@ public class Country {
     @Pattern(regexp = "^[A-Z]{3}$", message = "country code must have three uppercase letters")
     private String code;
 
-    @Column(length = 160, nullable = false, unique = true)
+    @Column(length = 100, nullable = false, unique = true)
     private String country;
 
     public Country() {

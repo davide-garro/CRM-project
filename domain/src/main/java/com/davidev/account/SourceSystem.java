@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "source_system", schema = "dbo")
+@Access(AccessType.FIELD)
 public class SourceSystem {
 
     @Id
