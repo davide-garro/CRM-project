@@ -7,10 +7,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(
-        name = "size",
-        schema = "dbo",
-        indexes = {
+@Table(name = "size", schema = "dbo", indexes = {
                 @Index(name = "IX_size_lbl_rng_seg", columnList = "label,[range],segment")
         }
 )
@@ -53,6 +50,30 @@ public class Size {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getSegment() {
+        return segment;
+    }
+
+    public void setSegment(String segment) {
+        this.segment = segment;
     }
 
     @Override

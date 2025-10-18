@@ -18,8 +18,7 @@ public class SourceSystem {
     @Column(length = 64, nullable = false, unique = true)
     private String name;
 
-    public SourceSystem(UUID id) {
-        this.id = id;
+    public SourceSystem() {
     }
 
     public SourceSystem(String name) {
