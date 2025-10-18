@@ -3,6 +3,8 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -13,7 +15,7 @@ import java.util.UUID;
 public class Currency {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
     private UUID id;
 
@@ -41,10 +43,6 @@ public class Currency {
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public @Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant alpha 3") String getCode() {

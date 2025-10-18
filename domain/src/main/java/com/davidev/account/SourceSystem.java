@@ -1,6 +1,8 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -11,7 +13,7 @@ import java.util.UUID;
 public class SourceSystem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
     private UUID id;
 
@@ -32,10 +34,6 @@ public class SourceSystem {
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -3,6 +3,8 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -13,7 +15,7 @@ import java.util.UUID;
 public class Language {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
     private UUID id;
 
@@ -41,10 +43,6 @@ public class Language {
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public @Size(min = 2, max = 2, message = "code must have 2 characters") @Pattern(regexp = "^[A-Z]{2}$", message = "country code must have 2 uppercase letters") String getCode() {
