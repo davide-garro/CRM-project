@@ -7,6 +7,8 @@ import org.hibernate.generator.EventType;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Table(name = "account_type", schema = "dbo")
 @Access(AccessType.FIELD)
@@ -14,13 +16,13 @@ public class AccountType {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 
     @Column(length = 64, nullable = false, unique = true)
     private String name;
 
-    public AccountType() {
+    protected AccountType() {
     }
 
     public AccountType(String name) {
@@ -47,13 +49,17 @@ public class AccountType {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof AccountType that)) return false;
-        return Objects.equals(id, that.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (AccountType) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id, that.id);
+        }
+        return Objects.equals(n(this.name), n(that.name));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.name));
     }
 
     @Override

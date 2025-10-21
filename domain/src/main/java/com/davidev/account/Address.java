@@ -7,6 +7,8 @@ import org.hibernate.generator.EventType;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Table(name = "address", schema = "dbo")
 @Access(AccessType.FIELD)
@@ -14,7 +16,7 @@ public class Address {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -124,16 +126,24 @@ public class Address {
         this.country = country;
     }
 
+    /*The address fields are all required and cannot be null, but validation is performed on payload reception, no null shall reach the persistence*/
+    /*The equals allows to safely compare object coming from the hibernate proxy, without fetching the whole referenced entity*/
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Address address)) return false;
-        return Objects.equals(id, address.id);
+        if (!(object instanceof Address that)) return false;
+        if(this.id != null && that.id != null){
+            return Objects.equals(id, that.id);
+        }
+        return proxySafeAddressEquals(this.addressType,that.addressType) && Objects.equals(n(this.attention),n(that.attention)) && Objects.equals(n(this.street), n(that.street)) && Objects.equals(n(this.city), n(that.city)) && proxySafeCountryEquals(this.country, that.country) && Objects.equals(n(this.stateRegion),n(that.stateRegion)) && Objects.equals(n(this.zipcode), n(that.zipcode));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        if(this.id != null){
+            return Objects.hash(id);
+        }
+        return Objects.hash(n(this.street), n(this.city), n(this.stateRegion), n(this.zipcode));
     }
 
     @Override
@@ -148,5 +158,13 @@ public class Address {
                 ", zipcode='" + zipcode + '\'' +
                 ", country=" + country +
                 '}';
+    }
+
+    private static boolean proxySafeAddressEquals(AddressType addressType1, AddressType addressType2){
+        return Objects.equals(addressType1 != null ? addressType1.getId() : null, addressType2 != null ? addressType2.getId() : null);
+    }
+
+    private static boolean proxySafeCountryEquals(Country country1, Country country2){
+        return Objects.equals(country1 != null ? country1.getId() : null, country2 != null ? country2.getId() : null);
     }
 }

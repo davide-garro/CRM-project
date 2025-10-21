@@ -7,6 +7,8 @@ import org.hibernate.generator.EventType;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Table(name = "sales_area", schema = "dbo", indexes = {
         @Index(name = "IX_sales_area_dims", columnList = "market, channel, sales_org, division", unique = true)
@@ -15,7 +17,7 @@ import java.util.UUID;
 public class SalesArea {
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 32)
@@ -30,7 +32,7 @@ public class SalesArea {
     @Column(length = 32)
     private String division;
 
-    public SalesArea() {
+    protected SalesArea() {
     }
 
     public SalesArea(String market, String channel, String salesOrg, String division) {
@@ -87,13 +89,17 @@ public class SalesArea {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof SalesArea salesArea)) return false;
-        return Objects.equals(id, salesArea.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (SalesArea) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id,that.id);
+        }
+        return Objects.equals(n(this.market), n(that.market)) && Objects.equals(n(this.channel),n(that.channel)) && Objects.equals(n(this.salesOrg),n(that.salesOrg)) && Objects.equals(n(this.division),n(that.division));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.market), n(this.channel), n(this.salesOrg), n(this.division));
     }
 
     @Override

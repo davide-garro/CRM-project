@@ -7,6 +7,8 @@ import org.hibernate.generator.EventType;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Table(name = "address_type", schema = "dbo")
 @Access(AccessType.FIELD)
@@ -14,7 +16,7 @@ public class AddressType {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 
     @Column(name = "[value]", length = 32, nullable = false, unique = true)
@@ -48,7 +50,10 @@ public class AddressType {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof AddressType that)) return false;
-        return Objects.equals(id, that.id);
+        if(this.id != null && that.id != null){
+            return Objects.equals(id, that.id);
+        }
+        return Objects.equals(n(this.value), n(that.value));
     }
 
     @Override

@@ -3,9 +3,9 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
-
 import java.util.Objects;
 import java.util.UUID;
+import static com.davidev.util.Util.n;
 
 @Entity
 @Table(name = "sector", schema = "dbo")
@@ -14,13 +14,13 @@ public class Sector {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 64, nullable = false, unique = true)
     private String name;
 
-    public Sector() {
+    protected Sector() {
     }
 
     public Sector(String name) {
@@ -47,13 +47,17 @@ public class Sector {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Sector sector)) return false;
-        return Objects.equals(id, sector.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (Sector) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id, that.id);
+        }
+        return Objects.equals(n(this.name), n(that.name));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.name));
     }
 
     @Override

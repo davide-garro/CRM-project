@@ -16,12 +16,12 @@ public class Currency {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()")
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 
     @Column(length = 3, nullable = false, unique = true, columnDefinition = "CHAR(3)")
     @Size(min = 3, max = 3)
-    @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant(alpha 3)")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency code must be ISO 4217 alpha-3 format (e.g., 'USD')")
     private String code;
 
     @Column(length = 32, nullable = false, unique = true)
@@ -45,11 +45,11 @@ public class Currency {
         return id;
     }
 
-    public @Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant alpha 3") String getCode() {
+    public @Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "Currency code must be ISO 4217 alpha-3 format (e.g., 'USD')") String getCode() {
         return code;
     }
 
-    public void setCode(@Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "currency code must be ISO compliant alpha 3") String code) {
+    public void setCode(@Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "Currency code must be ISO 4217 alpha-3 format (e.g., 'USD')") String code) {
         this.code = code;
     }
 
