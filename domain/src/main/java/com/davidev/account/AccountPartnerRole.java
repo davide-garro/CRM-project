@@ -13,12 +13,12 @@ public class AccountPartnerRole {
     private AccountPartnerRoleId accountPartnerRoleId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("account_id")
+    @MapsId("accountId")
     @JoinColumn(name = "account_id", nullable = false)
     private Account accountId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("partner_role_id")
+    @MapsId("partnerRoleId")
     @JoinColumn(name = "partner_role_id",nullable = false)
     private PartnerRole partnerRoleId;
 
@@ -31,7 +31,7 @@ public class AccountPartnerRole {
     @Column(name = "valid_to", nullable = false)
     private LocalDateTime validTo;
 
-    public AccountPartnerRole() {
+    protected AccountPartnerRole() {
     }
 
     public AccountPartnerRole(AccountPartnerRoleId accountPartnerRoleId, Account accountId, PartnerRole partnerRoleId, boolean isActive, LocalDateTime validFrom, LocalDateTime validTo) {
@@ -94,7 +94,8 @@ public class AccountPartnerRole {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof AccountPartnerRole that)) return false;
+        if (org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (AccountPartnerRole) object;
         return Objects.equals(accountPartnerRoleId, that.accountPartnerRoleId);
     }
 

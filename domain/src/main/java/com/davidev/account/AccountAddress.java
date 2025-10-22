@@ -12,12 +12,12 @@ public class AccountAddress {
     private AccountAddressId accountAddressId = new AccountAddressId();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("account_id")
+    @MapsId("accountId")
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("address_id")
+    @MapsId("addressId")
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
@@ -33,7 +33,7 @@ public class AccountAddress {
     @Column(name = "valid_to", nullable = false)
     private LocalDateTime validTo;
 
-    public AccountAddress() {
+    protected AccountAddress() {
     }
 
     public AccountAddress(AccountAddressId accountAddressId, Account account, Address address, boolean isActive, boolean isPrimary, LocalDateTime validFrom, LocalDateTime validTo) {
@@ -103,18 +103,26 @@ public class AccountAddress {
     }
 
     @Override
-    public boolean equals(Object obj) {
-       if(this == obj){
-           return true;
-       }
-       if(!(obj instanceof AccountAddress that)){
-           return false;
-        }
-        return Objects.equals(that.accountAddressId,this.accountAddressId);
+    public boolean equals(Object object) {
+       if(this == object) return true;
+       if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+       var that = (AccountAddress) object;
+       return Objects.equals(that.accountAddressId,this.accountAddressId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(accountAddressId);
+    }
+
+    @Override
+    public String toString() {
+        return "AccountAddress{" +
+                "accountAddressId=" + this.accountAddressId +
+                ", isActive=" + isActive +
+                ", isPrimary=" + isPrimary +
+                ", validFrom=" + validFrom +
+                ", validTo=" + validTo +
+                '}';
     }
 }
