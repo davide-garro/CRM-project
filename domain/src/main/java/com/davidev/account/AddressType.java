@@ -22,7 +22,7 @@ public class AddressType {
     @Column(name = "[value]", length = 32, nullable = false, unique = true)
     String value;
 
-    public AddressType() {
+    protected AddressType() {
     }
 
     public AddressType(String value) {
@@ -49,7 +49,8 @@ public class AddressType {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof AddressType that)) return false;
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (AddressType) object;
         if(this.id != null && that.id != null){
             return Objects.equals(id, that.id);
         }
@@ -58,7 +59,7 @@ public class AddressType {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.value));
     }
 
     @Override

@@ -5,9 +5,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
-
 import java.util.Objects;
 import java.util.UUID;
+import static com.davidev.util.Util.n;
 
 @Entity
 @Table(name = "currency", schema = "dbo")
@@ -16,7 +16,7 @@ public class Currency {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 3, nullable = false, unique = true, columnDefinition = "CHAR(3)")
@@ -27,7 +27,7 @@ public class Currency {
     @Column(length = 32, nullable = false, unique = true)
     private String name;
 
-    public Currency() {
+    protected Currency() {
     }
 
     public Currency(String code, String name) {
@@ -64,13 +64,17 @@ public class Currency {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Currency currency)) return false;
-        return Objects.equals(id, currency.id);
+        if (object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (Currency) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id, that.id);
+        }
+        return Objects.equals(n(this.code), n(that.code));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.code));
     }
 
     @Override

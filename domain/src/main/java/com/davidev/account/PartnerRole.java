@@ -3,9 +3,10 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
-
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.davidev.util.Util.n;
 
 @Entity
 @Table(name = "partner_role", schema = "dbo")
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class PartnerRole {
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 32, nullable = false, unique = true)
@@ -22,7 +23,7 @@ public class PartnerRole {
     @Column(name = "[description]")
     private String description;
 
-    public PartnerRole() {
+    protected PartnerRole() {
     }
 
     public PartnerRole(String code, String description) {
@@ -59,13 +60,17 @@ public class PartnerRole {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof PartnerRole that)) return false;
-        return Objects.equals(id, that.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (PartnerRole) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id, that.id);
+        }
+        return Objects.equals(n(this.code), n(that.code));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.code));
     }
 
     @Override

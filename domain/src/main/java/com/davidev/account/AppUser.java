@@ -7,6 +7,8 @@ import org.hibernate.generator.EventType;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Table(name = "app_user", schema = "dbo")
 @Access(AccessType.FIELD)
@@ -14,7 +16,7 @@ public class AppUser {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "[subject]", nullable = false, unique = true)
@@ -38,7 +40,7 @@ public class AppUser {
     @Column(name = "[group]", length = 64)
     private String group;
 
-    public AppUser() {
+    protected AppUser() {
     }
 
     public AppUser(String subject, String email, String username, String fullName, String firstName, String lastName, String group) {
@@ -125,13 +127,17 @@ public class AppUser {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof AppUser appUser)) return false;
-        return Objects.equals(id, appUser.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (AppUser) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id, that.id);
+        }
+        return Objects.equals(n(this.subject), n(that.subject));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.subject));
     }
 
     @Override

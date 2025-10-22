@@ -3,9 +3,9 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
-
 import java.util.Objects;
 import java.util.UUID;
+import static com.davidev.util.Util.n;
 
 @Entity
 @Table(name = "payment_terms", schema = "dbo")
@@ -14,7 +14,7 @@ public class PaymentTerms {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 16, nullable = false, unique = true)
@@ -23,7 +23,7 @@ public class PaymentTerms {
     @Column(length = 64, nullable = false)
     private String name;
 
-    public PaymentTerms() {
+    protected PaymentTerms() {
     }
 
     public PaymentTerms(String code, String name) {
@@ -60,13 +60,17 @@ public class PaymentTerms {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof PaymentTerms that)) return false;
-        return Objects.equals(id, that.id);
+        if (object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (PaymentTerms) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(id, that.id);
+        }
+        return Objects.equals(n(this.code),n(that.code));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.code));
     }
 
     @Override

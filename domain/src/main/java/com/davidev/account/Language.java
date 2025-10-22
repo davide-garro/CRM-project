@@ -9,6 +9,8 @@ import org.hibernate.generator.EventType;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Table(name = "[language]", schema = "dbo")
 @Access(AccessType.FIELD)
@@ -16,7 +18,7 @@ public class Language {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 2, nullable = false)
@@ -27,7 +29,7 @@ public class Language {
     @Column(length = 20, unique = true, nullable = false)
     private String culture;
 
-    public Language() {
+    protected Language() {
     }
 
     public Language(String code, String culture) {
@@ -64,13 +66,17 @@ public class Language {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Language language)) return false;
-        return Objects.equals(id, language.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (Language) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(id, that.id);
+        }
+        return Objects.equals(n(this.culture), n(that.culture));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (this.id != null) ? this.id.hashCode() : Objects.hash(n(this.culture));
     }
 
     @Override

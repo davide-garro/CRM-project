@@ -16,7 +16,7 @@ public class AccountSalesAreaId implements Serializable {
     @Column(name = "sales_area_id", nullable = false)
     private UUID salesAreaId;
 
-    public AccountSalesAreaId() {
+    protected AccountSalesAreaId() {
     }
 
     public AccountSalesAreaId(UUID accountId, UUID salesAreaId) {

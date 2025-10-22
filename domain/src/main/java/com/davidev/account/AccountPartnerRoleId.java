@@ -14,7 +14,7 @@ public class AccountPartnerRoleId implements Serializable {
     @Column(name = "partner_role_id")
     private UUID partnerRoleId;
 
-    public AccountPartnerRoleId() {
+    protected AccountPartnerRoleId() {
     }
 
     public AccountPartnerRoleId(UUID accountId, UUID partnerRoleId) {

@@ -15,7 +15,7 @@ public class AccountAddressId implements Serializable {
     @Column(name = "address_id", nullable = false)
     private UUID addressId;
 
-    public AccountAddressId() {
+    protected AccountAddressId() {
     }
 
     public AccountAddressId(UUID accountId, UUID addressId) {

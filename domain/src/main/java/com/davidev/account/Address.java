@@ -3,10 +3,8 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
-
 import java.util.Objects;
 import java.util.UUID;
-
 import static com.davidev.util.Util.n;
 
 @Entity
@@ -16,7 +14,7 @@ public class Address {
 
     @Id
     @Generated(event = EventType.INSERT)
-    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -42,7 +40,7 @@ public class Address {
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
-    public Address() {
+    protected Address() {
     }
 
     public Address(AddressType addressType, String attention, String street, String city, String stateRegion, String zipcode, Country country) {
@@ -131,32 +129,37 @@ public class Address {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Address that)) return false;
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (Address) object;
         if(this.id != null && that.id != null){
-            return Objects.equals(id, that.id);
+            return Objects.equals(this.id, that.id);
         }
-        return proxySafeAddressEquals(this.addressType,that.addressType) && Objects.equals(n(this.attention),n(that.attention)) && Objects.equals(n(this.street), n(that.street)) && Objects.equals(n(this.city), n(that.city)) && proxySafeCountryEquals(this.country, that.country) && Objects.equals(n(this.stateRegion),n(that.stateRegion)) && Objects.equals(n(this.zipcode), n(that.zipcode));
+        return proxySafeAddressEquals(this.addressType,that.addressType) && Objects.equals(n(this.street), n(that.street)) && Objects.equals(n(this.city), n(that.city)) && Objects.equals(n(this.stateRegion),n(that.stateRegion)) && Objects.equals(n(this.zipcode), n(that.zipcode)) && proxySafeCountryEquals(this.country, that.country);
     }
 
     @Override
     public int hashCode() {
-        if(this.id != null){
-            return Objects.hash(id);
-        }
-        return Objects.hash(n(this.street), n(this.city), n(this.stateRegion), n(this.zipcode));
+        return (this.id != null) ? this.id.hashCode():Objects.hash(
+                iodf(this.addressType),
+                n(this.street),
+                n(this.city),
+                n(this.stateRegion),
+                n(this.zipcode),
+                iodf(this.country)
+        );
     }
 
     @Override
     public String toString() {
         return "Address{" +
                 "id=" + id +
-                ", addressType=" + addressType +
+                ", addressType=" + addressType.getId() +
                 ", attention='" + attention + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", stateRegion='" + stateRegion + '\'' +
                 ", zipcode='" + zipcode + '\'' +
-                ", country=" + country +
+                ", country=" + country.getId() +
                 '}';
     }
 
@@ -166,5 +169,20 @@ public class Address {
 
     private static boolean proxySafeCountryEquals(Country country1, Country country2){
         return Objects.equals(country1 != null ? country1.getId() : null, country2 != null ? country2.getId() : null);
+    }
+    private static UUID iodf(Object o){
+        if(o == null){
+            return null;
+        }
+        if(o instanceof org.hibernate.proxy.HibernateProxy p){
+            return (UUID) p.getHibernateLazyInitializer().getIdentifier();
+        }
+        if(o instanceof AddressType) {
+            return ((AddressType) o).getId();
+        }
+        if(o instanceof Country){
+            return ((Country) o).getId();
+        }
+        throw new IllegalArgumentException("Invalid Object type supplied to helper: accepted types: AddressType, Country");
     }
 }
