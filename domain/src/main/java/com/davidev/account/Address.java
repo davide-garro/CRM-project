@@ -140,12 +140,12 @@ public class Address {
     @Override
     public int hashCode() {
         return (this.id != null) ? this.id.hashCode():Objects.hash(
-                iodf(this.addressType),
+                idof(this.addressType),
                 n(this.street),
                 n(this.city),
                 n(this.stateRegion),
                 n(this.zipcode),
-                iodf(this.country)
+                idof(this.country)
         );
     }
 
@@ -153,13 +153,13 @@ public class Address {
     public String toString() {
         return "Address{" +
                 "id=" + id +
-                ", addressType=" + addressType.getId() +
+                ", addressType=" + (addressType != null ? addressType.getId() : null) +
                 ", attention='" + attention + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", stateRegion='" + stateRegion + '\'' +
                 ", zipcode='" + zipcode + '\'' +
-                ", country=" + country.getId() +
+                ", country=" + ((country!= null) ?country.getId(): null) +
                 '}';
     }
 
@@ -170,7 +170,7 @@ public class Address {
     private static boolean proxySafeCountryEquals(Country country1, Country country2){
         return Objects.equals(country1 != null ? country1.getId() : null, country2 != null ? country2.getId() : null);
     }
-    private static UUID iodf(Object o){
+    private static UUID idof(Object o){
         if(o == null){
             return null;
         }
