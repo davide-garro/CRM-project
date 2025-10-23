@@ -1,8 +1,6 @@
 package com.davidev.account;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,10 +8,8 @@ import java.util.UUID;
 @Embeddable
 public class AccountSalesAreaId implements Serializable {
 
-    @Column(name = "account_id", nullable = false)
     private UUID accountId;
 
-    @Column(name = "sales_area_id", nullable = false)
     private UUID salesAreaId;
 
     protected AccountSalesAreaId() {
@@ -28,23 +24,15 @@ public class AccountSalesAreaId implements Serializable {
         return accountId;
     }
 
-    public void setAccountId(UUID accountId) {
-        this.accountId = accountId;
-    }
-
     public UUID getSalesAreaId() {
         return salesAreaId;
-    }
-
-    public void setSalesAreaId(UUID salesAreaId) {
-        this.salesAreaId = salesAreaId;
     }
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof AccountSalesAreaId that)) return false;
-        return Objects.equals(accountId, that.accountId) && Objects.equals(salesAreaId, that.salesAreaId);
+        return Objects.equals(this.accountId, that.accountId) && Objects.equals(this.salesAreaId, that.salesAreaId);
     }
 
     @Override

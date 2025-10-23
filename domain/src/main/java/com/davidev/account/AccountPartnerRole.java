@@ -1,7 +1,6 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ import java.util.Objects;
 @Table(name = "account_partner_role", schema = "dbo")
 public class AccountPartnerRole {
     @EmbeddedId
-    private AccountPartnerRoleId accountPartnerRoleId;
+    private AccountPartnerRoleId accountPartnerRoleId = new AccountPartnerRoleId();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("accountId")

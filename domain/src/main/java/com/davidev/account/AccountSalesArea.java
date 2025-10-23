@@ -1,7 +1,6 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,15 +9,15 @@ import java.util.Objects;
 @Table(name = "account_sales_area", schema = "dbo")
 public class AccountSalesArea {
     @EmbeddedId
-    private AccountSalesAreaId accountSalesAreaId;
+    private AccountSalesAreaId accountSalesAreaId = new AccountSalesAreaId();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("account_id")
+    @MapsId("accountId")
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("sales_area_id")
+    @MapsId("salesAreaId")
     @JoinColumn(name = "sales_area_id", nullable = false)
     private SalesArea salesArea;
 
@@ -33,7 +32,7 @@ public class AccountSalesArea {
     @Column(name = "valid_to", nullable = false)
     private LocalDateTime validTo;
 
-    public AccountSalesArea() {
+    protected AccountSalesArea() {
     }
 
     public AccountSalesArea(AccountSalesAreaId accountSalesAreaId, Account account, SalesArea salesArea, boolean isActive, int priority, LocalDateTime validFrom, LocalDateTime validTo) {
@@ -105,12 +104,13 @@ public class AccountSalesArea {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof AccountSalesArea that)) return false;
-        return Objects.equals(accountSalesAreaId, that.accountSalesAreaId);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (AccountSalesArea) object;
+        return Objects.equals(this.accountSalesAreaId, that.accountSalesAreaId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountSalesAreaId);
+        return Objects.hash(this.accountSalesAreaId);
     }
 }

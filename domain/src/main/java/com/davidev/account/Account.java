@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.davidev.util.Util.n;
+
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "account", schema = "dbo", indexes = {
@@ -128,7 +130,7 @@ public class Account {
     @OneToMany(mappedBy = "account_id")
     private List<AccountPartnerRole> partnerRoleList = new ArrayList<>();
 
-    public Account() {
+    protected Account() {
     }
 
     public Account(String externalId, SourceSystem sourceSystem, boolean isSynchronized, boolean isMaster, String vatNumber, String domesticVatNumber, String accountName, Sector sector, AccountType accountType, Status status, Size firmSize, BigDecimal annualTurnover, Currency turnoverCurrency, String phone, String fax, String email, String website, Language language, Country country, PaymentTerms paymentTerms, BigDecimal creditLimit, Currency defaultCurrency, boolean isBlocked, String blockReason, LocalDateTime createdAt, AppUser createdBy, LocalDateTime updatedAt, AppUser updatedBy) {
@@ -502,13 +504,17 @@ public class Account {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Account account)) return false;
-        return Objects.equals(id, account.id);
+        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
+        var that = (Account) object;
+        if(this.id != null && that.id != null){
+            return Objects.equals(this.id, that.id);
+        }
+        return Objects.equals(n(this.vatNumber), n(that.vatNumber)) && Objects.equals((this.country != null ? this.country.getId() : null), (that.country != null ? that.country.getId() : null));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return this.id != null ? this.id.hashCode() : Objects.hash(n(this.vatNumber), (this.country != null ? this.country.getId() : null));
     }
 
     @Override
@@ -522,19 +528,19 @@ public class Account {
                 ", vatNumber='" + vatNumber + '\'' +
                 ", domesticVatNumber='" + domesticVatNumber + '\'' +
                 ", accountName='" + accountName + '\'' +
-                ", sector=" + sector +
-                ", accountType=" + accountType +
-                ", status=" + status +
+                ", sector=" + (sector != null ? sector.getName() : null) +
+                ", accountType=" + (accountType != null ? accountType.getName() : null) +
+                ", status=" + (status != null ? status.getName() : null) +
                 ", firmSize=" + firmSize +
                 ", annualTurnover=" + annualTurnover +
-                ", turnoverCurrency=" + turnoverCurrency +
+                ", turnoverCurrency=" + (turnoverCurrency != null ? turnoverCurrency.getName() : null) +
                 ", phone='" + phone + '\'' +
                 ", fax='" + fax + '\'' +
                 ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
-                ", language=" + language +
-                ", country=" + country +
-                ", paymentTerms=" + paymentTerms +
+                ", language=" + (language != null ? language.getCode() : null)+
+                ", country=" + (country!= null ? country.getCountry() : null) +
+                ", paymentTerms=" + (paymentTerms != null ? paymentTerms.getName() : null) +
                 ", creditLimit=" + creditLimit +
                 ", defaultCurrency=" + defaultCurrency +
                 ", isBlocked=" + isBlocked +

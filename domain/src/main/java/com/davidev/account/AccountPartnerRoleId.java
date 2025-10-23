@@ -1,17 +1,15 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
 public class AccountPartnerRoleId implements Serializable {
-    @Column(name = "account_id")
+
     private UUID accountId;
 
-    @Column(name = "partner_role_id")
     private UUID partnerRoleId;
 
     protected AccountPartnerRoleId() {
@@ -26,16 +24,8 @@ public class AccountPartnerRoleId implements Serializable {
         return accountId;
     }
 
-    public void setAccountId(UUID accountId) {
-        this.accountId = accountId;
-    }
-
     public UUID getPartnerRoleId() {
         return partnerRoleId;
-    }
-
-    public void setPartnerRoleId(UUID partnerRoleId) {
-        this.partnerRoleId = partnerRoleId;
     }
 
     @Override

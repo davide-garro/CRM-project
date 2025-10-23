@@ -107,7 +107,7 @@ public class AccountAddress {
        if(this == object) return true;
        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
        var that = (AccountAddress) object;
-       return Objects.equals(that.accountAddressId,this.accountAddressId);
+       return Objects.equals(this.accountAddressId,that.accountAddressId);
     }
 
     @Override
