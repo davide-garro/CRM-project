@@ -1,23 +1,27 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "account_address", schema = "dbo")
 public class AccountAddress {
-    @EmbeddedId
-    private AccountAddressId accountAddressId = new AccountAddressId();
 
+    @Id
+    @Generated(event = EventType.INSERT)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    private UUID id;
+    
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("accountId")
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("addressId")
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
@@ -36,8 +40,7 @@ public class AccountAddress {
     protected AccountAddress() {
     }
 
-    public AccountAddress(AccountAddressId accountAddressId, Account account, Address address, boolean isActive, boolean isPrimary, LocalDateTime validFrom, LocalDateTime validTo) {
-        this.accountAddressId = accountAddressId;
+    public AccountAddress(Account account, Address address, boolean isActive, boolean isPrimary, LocalDateTime validFrom, LocalDateTime validTo) {
         this.account = account;
         this.address = address;
         this.isActive = isActive;
@@ -46,60 +49,32 @@ public class AccountAddress {
         this.validTo = validTo;
     }
 
-    public AccountAddressId getAccountAddressId() {
-        return accountAddressId;
-    }
-
-    public void setAccountAddressId(AccountAddressId accountAddressId) {
-        this.accountAddressId = accountAddressId;
+    public UUID getId() {
+        return id;
     }
 
     public Account getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public Address getAddress() {
         return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public boolean isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public boolean isPrimary() {
         return isPrimary;
-    }
-
-    public void setPrimary(boolean primary) {
-        isPrimary = primary;
     }
 
     public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
-        this.validFrom = validFrom;
-    }
-
     public LocalDateTime getValidTo() {
         return validTo;
-    }
-
-    public void setValidTo(LocalDateTime validTo) {
-        this.validTo = validTo;
     }
 
     @Override
@@ -107,18 +82,18 @@ public class AccountAddress {
        if(this == object) return true;
        if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
        var that = (AccountAddress) object;
-       return Objects.equals(this.accountAddressId,that.accountAddressId);
+       return Objects.equals(this.id,that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountAddressId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "AccountAddress{" +
-                "accountAddressId=" + this.accountAddressId +
+                "id=" + this.id +
                 ", isActive=" + isActive +
                 ", isPrimary=" + isPrimary +
                 ", validFrom=" + validFrom +

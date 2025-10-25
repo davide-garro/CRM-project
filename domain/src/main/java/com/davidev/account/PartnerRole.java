@@ -31,12 +31,6 @@ public class PartnerRole {
         this.description = description;
     }
 
-    public PartnerRole(UUID id, String code, String description) {
-        this.id = id;
-        this.code = code;
-        this.description = description;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -45,16 +39,8 @@ public class PartnerRole {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

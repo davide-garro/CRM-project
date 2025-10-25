@@ -35,12 +35,6 @@ public class Country {
         this.country = country;
     }
 
-    public Country(UUID id, String code, String country) {
-        this.id = id;
-        this.code = code;
-        this.country = country;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -49,16 +43,8 @@ public class Country {
         return code;
     }
 
-    public void setCode(@Size(min = 3, max = 3, message = "country code must have 3 characters") @Pattern(regexp = "^[A-Z]{3}$", message = "country code must have three uppercase letters") String code) {
-        this.code = code;
-    }
-
     public String getCountry() {
         return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     @Override

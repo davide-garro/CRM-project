@@ -55,8 +55,8 @@ CREATE TABLE dbo.address_type (
 
 CREATE TABLE dbo.country (
   id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
-  code CHAR(3) NOT NULL UNIQUE,      -- ISO alpha-3 (switch to CHAR(2) if you prefer)
-  country VARCHAR(100) NOT NULL UNIQUE
+  code CHAR(3) NOT NULL UNIQUE,
+  name VARCHAR(100) NOT NULL UNIQUE
 );
 
 /* =========================
@@ -93,7 +93,7 @@ CREATE TABLE dbo.sales_area (
   division VARCHAR(32) NULL
 );
 
-CREATE UNIQUE INDEX IX_sales_area_dims ON dbo.sales_area(market, channel, sales_org, division);
+CREATE UNIQUE INDEX UX_sales_area_dims ON dbo.sales_area(market, channel, sales_org, division);
 
 CREATE TABLE dbo.partner_role (
   id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
@@ -140,33 +140,49 @@ CREATE UNIQUE INDEX UX_account_vat_country ON dbo.account(vat_number, country_id
    ========================= */
 
 CREATE TABLE dbo.account_address (
+  id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
   account_id UNIQUEIDENTIFIER NOT NULL,
   address_id UNIQUEIDENTIFIER NOT NULL,
   is_active  BIT NOT NULL CONSTRAINT DF_acc_addr_is_active DEFAULT (0),
   is_primary BIT NOT NULL CONSTRAINT DF_acc_addr_is_primary DEFAULT (0),
   valid_from DATETIME2(3) NOT NULL,
   valid_to   DATETIME2(3) NULL,
-  CONSTRAINT PK_account_address PRIMARY KEY (account_id, address_id, valid_from)
+  CONSTRAINT CK_account_address_dates CHECK(valid_to IS NULL OR valid_to > valid_from),
+  CONSTRAINT CK_account_address_active_dates CHECK (is_primary = 0 OR (is_active = 1 AND valid_to IS NULL));,
+  CONSTRAINT UX_account_address_version UNIQUE(account_id, address_id, valid_from)
 );
+CREATE UNIQUE INDEX IX_account_address_primary ON dbo.account_address(account_id, address_id) WHERE is_primary = 1 AND is_active = 1;
+CREATE UNIQUE INDEX IX_account_address_active ON dbo.account_address(account_id, address_id) WHERE valid_to IS NULL;
 
 CREATE TABLE dbo.account_sales_area (
+  id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
   account_id UNIQUEIDENTIFIER NOT NULL,
   sales_area_id UNIQUEIDENTIFIER NOT NULL,
   is_active BIT NOT NULL CONSTRAINT DF_acc_sa_is_active DEFAULT (0),
   priority  INT NULL,
   valid_from DATETIME2(3) NOT NULL,
   valid_to   DATETIME2(3) NULL,
-  CONSTRAINT PK_account_sales_area PRIMARY KEY (account_id, sales_area_id, valid_from)
+  CONSTRAINT CK_account_sales_area_priority CHECK (priority IS NULL OR priority >= 0),
+  CONSTRAINT CK_account_sales_area_dates CHECK(valid_to IS NULL OR valid_to > valid_from),
+  CONSTRAINT CK_account_sales_area_active CHECK((valid_to IS NULL AND is_active=1) OR (valid_to IS NOT NULL AND is_active=0)),
+  CONSTRAINT UX_account_sales_area_version UNIQUE(account_id, sales_area_id, valid_from)
 );
 
+CREATE UNIQUE INDEX IX_account_sales_area_active ON dbo.account_sales_area(account_id, sales_area_id) WHERE valid_to IS NULL;
+
 CREATE TABLE dbo.account_partner_role (
+  id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
   account_id UNIQUEIDENTIFIER NOT NULL,
   partner_role_id UNIQUEIDENTIFIER NOT NULL,
   is_active BIT NOT NULL CONSTRAINT DF_acc_pr_is_active DEFAULT (0),
   valid_from DATETIME2(3) NOT NULL,
   valid_to   DATETIME2(3) NULL,
-  CONSTRAINT PK_account_partner_role PRIMARY KEY (account_id, partner_role_id, valid_from)
+  CONSTRAINT CK_account_partner_role_dates CHECK(valid_to IS NULL OR valid_to > valid_from),
+  CONSTRAINT CK_account_partner_role_active CHECK((valid_to IS NULL AND is_active=1) OR (valid_to IS NOT NULL AND is_active=0)),
+  CONSTRAINT UX_account_partner_role_version UNIQUE(account_id, partner_role_id, valid_from)
 );
+
+CREATE UNIQUE INDEX IX_account_partner_role_active ON dbo.account_partner_role(account_id, partner_role_id) WHERE valid_to IS NULL;
 
 /* =========================
    4) Foreign keys
@@ -258,11 +274,6 @@ CREATE INDEX IX_account_updated_at   ON dbo.account(updated_at);
 CREATE INDEX IX_account_created_at   ON dbo.account(created_at);
 
 -- Assignment tables: current rows & reverse lookups
-CREATE INDEX IX_acc_addr_account_cur ON dbo.account_address(account_id, valid_to) INCLUDE (address_id, is_primary);
 CREATE INDEX IX_acc_addr_address     ON dbo.account_address(address_id);
-
-CREATE INDEX IX_acc_sa_account_cur   ON dbo.account_sales_area(account_id, valid_to) INCLUDE (sales_area_id, priority);
 CREATE INDEX IX_acc_sa_sales_area    ON dbo.account_sales_area(sales_area_id);
-
-CREATE INDEX IX_acc_pr_account_cur   ON dbo.account_partner_role(account_id, valid_to) INCLUDE (partner_role_id);
 CREATE INDEX IX_acc_pr_role          ON dbo.account_partner_role(partner_role_id);

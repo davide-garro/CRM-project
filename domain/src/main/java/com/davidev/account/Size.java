@@ -39,13 +39,6 @@ public class Size {
         this.segment = segment;
     }
 
-    public Size(UUID id, String range, String label, String segment) {
-        this.id = id;
-        this.range = range;
-        this.label = label;
-        this.segment = segment;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -54,24 +47,12 @@ public class Size {
         return range;
     }
 
-    public void setRange(String range) {
-        this.range = range;
-    }
-
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public String getSegment() {
         return segment;
-    }
-
-    public void setSegment(String segment) {
-        this.segment = segment;
     }
 
     @Override

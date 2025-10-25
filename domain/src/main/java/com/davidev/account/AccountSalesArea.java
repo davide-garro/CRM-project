@@ -1,23 +1,27 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "account_sales_area", schema = "dbo")
 public class AccountSalesArea {
-    @EmbeddedId
-    private AccountSalesAreaId accountSalesAreaId = new AccountSalesAreaId();
+    @Id
+    @Generated(event = EventType.INSERT)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("accountId")
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("salesAreaId")
     @JoinColumn(name = "sales_area_id", nullable = false)
     private SalesArea salesArea;
 
@@ -35,8 +39,7 @@ public class AccountSalesArea {
     protected AccountSalesArea() {
     }
 
-    public AccountSalesArea(AccountSalesAreaId accountSalesAreaId, Account account, SalesArea salesArea, boolean isActive, int priority, LocalDateTime validFrom, LocalDateTime validTo) {
-        this.accountSalesAreaId = accountSalesAreaId;
+    public AccountSalesArea(Account account, SalesArea salesArea, boolean isActive, int priority, LocalDateTime validFrom, LocalDateTime validTo) {
         this.account = account;
         this.salesArea = salesArea;
         this.isActive = isActive;
@@ -45,60 +48,32 @@ public class AccountSalesArea {
         this.validTo = validTo;
     }
 
-    public AccountSalesAreaId getAccountSalesAreaId() {
-        return accountSalesAreaId;
-    }
-
-    public void setAccountSalesAreaId(AccountSalesAreaId accountSalesAreaId) {
-        this.accountSalesAreaId = accountSalesAreaId;
+    public UUID getId() {
+        return id;
     }
 
     public Account getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public SalesArea getSalesArea() {
         return salesArea;
-    }
-
-    public void setSalesArea(SalesArea salesArea) {
-        this.salesArea = salesArea;
     }
 
     public boolean isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public int getPriority() {
         return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
-        this.validFrom = validFrom;
-    }
-
     public LocalDateTime getValidTo() {
         return validTo;
-    }
-
-    public void setValidTo(LocalDateTime validTo) {
-        this.validTo = validTo;
     }
 
     @Override
@@ -106,11 +81,11 @@ public class AccountSalesArea {
         if (this == object) return true;
         if(object == null || org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
         var that = (AccountSalesArea) object;
-        return Objects.equals(this.accountSalesAreaId, that.accountSalesAreaId);
+        return Objects.equals(this.id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.accountSalesAreaId);
+        return Objects.hash(this.id);
     }
 }

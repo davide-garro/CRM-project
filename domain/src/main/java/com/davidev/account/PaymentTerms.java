@@ -31,12 +31,6 @@ public class PaymentTerms {
         this.name = name;
     }
 
-    public PaymentTerms(UUID id, String code, String name) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -45,16 +39,8 @@ public class PaymentTerms {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

@@ -35,12 +35,6 @@ public class Currency {
         this.name = name;
     }
 
-    public Currency(UUID id, String code, String name) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -49,16 +43,8 @@ public class Currency {
         return code;
     }
 
-    public void setCode(@Size(min = 3, max = 3) @Pattern(regexp = "^[A-Z]{3}$", message = "Currency code must be ISO 4217 alpha-3 format (e.g., 'USD')") String code) {
-        this.code = code;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

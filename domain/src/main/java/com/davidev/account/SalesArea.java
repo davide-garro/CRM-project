@@ -42,14 +42,6 @@ public class SalesArea {
         this.division = division;
     }
 
-    public SalesArea(UUID id, String market, String channel, String salesOrg, String division) {
-        this.id = id;
-        this.market = market;
-        this.channel = channel;
-        this.salesOrg = salesOrg;
-        this.division = division;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -58,32 +50,16 @@ public class SalesArea {
         return market;
     }
 
-    public void setMarket(String market) {
-        this.market = market;
-    }
-
     public String getChannel() {
         return channel;
-    }
-
-    public void setChannel(String channel) {
-        this.channel = channel;
     }
 
     public String getSalesOrg() {
         return salesOrg;
     }
 
-    public void setSalesOrg(String salesOrg) {
-        this.salesOrg = salesOrg;
-    }
-
     public String getDivision() {
         return division;
-    }
-
-    public void setDivision(String division) {
-        this.division = division;
     }
 
     @Override

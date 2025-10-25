@@ -3,7 +3,6 @@ package com.davidev.account;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -164,38 +163,6 @@ public class Account {
         this.updatedBy = updatedBy;
     }
 
-    public Account(UUID id, String externalId, SourceSystem sourceSystem, boolean isSynchronized, boolean isMaster, String vatNumber, String domesticVatNumber, String accountName, Sector sector, AccountType accountType, Status status, Size firmSize, BigDecimal annualTurnover, Currency turnoverCurrency, String phone, String fax, String email, String website, Language language, Country country, PaymentTerms paymentTerms, BigDecimal creditLimit, Currency defaultCurrency, boolean isBlocked, String blockReason, LocalDateTime createdAt, AppUser createdBy, LocalDateTime updatedAt, AppUser updatedBy) {
-        this.id = id;
-        this.externalId = externalId;
-        this.sourceSystem = sourceSystem;
-        this.isSynchronized = isSynchronized;
-        this.isMaster = isMaster;
-        this.vatNumber = vatNumber;
-        this.domesticVatNumber = domesticVatNumber;
-        this.accountName = accountName;
-        this.sector = sector;
-        this.accountType = accountType;
-        this.status = status;
-        this.firmSize = firmSize;
-        this.annualTurnover = annualTurnover;
-        this.turnoverCurrency = turnoverCurrency;
-        this.phone = phone;
-        this.fax = fax;
-        this.email = email;
-        this.website = website;
-        this.language = language;
-        this.country = country;
-        this.paymentTerms = paymentTerms;
-        this.creditLimit = creditLimit;
-        this.defaultCurrency = defaultCurrency;
-        this.isBlocked = isBlocked;
-        this.blockReason = blockReason;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.updatedAt = updatedAt;
-        this.updatedBy = updatedBy;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -204,225 +171,114 @@ public class Account {
         return externalId;
     }
 
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
-    }
-
     public SourceSystem getSourceSystem() {
         return sourceSystem;
-    }
-
-    public void setSourceSystem(SourceSystem sourceSystem) {
-        this.sourceSystem = sourceSystem;
     }
 
     public boolean isSynchronized() {
         return isSynchronized;
     }
 
-    public void setSynchronized(boolean aSynchronized) {
-        isSynchronized = aSynchronized;
-    }
-
     public boolean isMaster() {
         return isMaster;
     }
-
-    public void setMaster(boolean master) {
-        isMaster = master;
-    }
-
     public String getVatNumber() {
         return vatNumber;
-    }
-
-    public void setVatNumber(String vatNumber) {
-        this.vatNumber = vatNumber;
     }
 
     public String getDomesticVatNumber() {
         return domesticVatNumber;
     }
 
-    public void setDomesticVatNumber(String domesticVatNumber) {
-        this.domesticVatNumber = domesticVatNumber;
-    }
-
     public String getAccountName() {
         return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
     }
 
     public Sector getSector() {
         return sector;
     }
 
-    public void setSector(Sector sector) {
-        this.sector = sector;
-    }
-
     public AccountType getAccountType() {
         return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public Size getFirmSize() {
         return firmSize;
-    }
-
-    public void setFirmSize(Size firmSize) {
-        this.firmSize = firmSize;
     }
 
     public BigDecimal getAnnualTurnover() {
         return annualTurnover;
     }
 
-    public void setAnnualTurnover(BigDecimal annualTurnover) {
-        this.annualTurnover = annualTurnover;
-    }
-
     public Currency getTurnoverCurrency() {
         return turnoverCurrency;
-    }
-
-    public void setTurnoverCurrency(Currency turnoverCurrency) {
-        this.turnoverCurrency = turnoverCurrency;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getFax() {
         return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getWebsite() {
         return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
     }
 
     public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
     public Country getCountry() {
         return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 
     public PaymentTerms getPaymentTerms() {
         return paymentTerms;
     }
 
-    public void setPaymentTerms(PaymentTerms paymentTerms) {
-        this.paymentTerms = paymentTerms;
-    }
 
     public BigDecimal getCreditLimit() {
         return creditLimit;
-    }
-
-    public void setCreditLimit(BigDecimal creditLimit) {
-        this.creditLimit = creditLimit;
     }
 
     public Currency getDefaultCurrency() {
         return defaultCurrency;
     }
 
-    public void setDefaultCurrency(Currency defaultCurrency) {
-        this.defaultCurrency = defaultCurrency;
-    }
-
     public boolean isBlocked() {
         return isBlocked;
-    }
-
-    public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
     }
 
     public String getBlockReason() {
         return blockReason;
     }
 
-    public void setBlockReason(String blockReason) {
-        this.blockReason = blockReason;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public AppUser getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(AppUser createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public AppUser getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(AppUser updatedBy) {
-        this.updatedBy = updatedBy;
-    }
 
     public List<AccountAddress> getAccountAddressList() {
         return accountAddressList;
@@ -436,12 +292,6 @@ public class Account {
 
     public List<AccountSalesArea> getSalesAreaList() {
         return salesAreaList;
-    }
-
-    public void setSalesAreaList(List<AccountSalesArea> salesAreaList) {
-        if(salesAreaList != null){
-            this.salesAreaList = salesAreaList;
-        }
     }
 
     public List<AccountPartnerRole> getPartnerRoleList() {
@@ -473,28 +323,28 @@ public class Account {
                     this
                             .getAccountAddressList()
                             .removeIf((item -> {
-                                if(item.getAccountAddressId() == null){
+                                if(item.getId() == null){
                                     throw new IllegalStateException("Cannot remove AccountAddress object from the collection: id cannot be null");
                                 }
-                                return item.getAccountAddressId().equals(accountAddress.getAccountAddressId());
+                                return item.getId().equals(accountAddress.getId());
                             }));
             case AccountSalesArea accountSalesArea->
                     this
                             .getSalesAreaList()
                             .removeIf(item->{
-                                if(item.getAccountSalesAreaId() == null){
+                                if(item.getId() == null){
                                     throw new IllegalStateException("Cannot remove AccountSalesArea object from the collection: id cannot be null");
                                 }
-                                return item.getAccountSalesAreaId().equals(accountSalesArea.getAccountSalesAreaId());
+                                return item.getId().equals(accountSalesArea.getId());
                             });
             case AccountPartnerRole accountPartnerRole->
                     this
                             .getPartnerRoleList()
                             .removeIf(item->{
-                                if(item.getAccountPartnerRoleId() == null){
+                                if(item.getId() == null){
                                     throw new IllegalStateException("Cannot remove AccountPartnerRole object from the collection: id cannot be null");
                                 }
-                                return item.getAccountPartnerRoleId().equals(accountPartnerRole.getAccountPartnerRoleId());
+                                return item.getId().equals(accountPartnerRole.getId());
                             });
             default->
                     throw new IllegalArgumentException("cannot remove object from the collection: invalid object type,expected one of the following: AccountAddress, AccountSalesArea, AccountPartnerRole");

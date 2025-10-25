@@ -37,12 +37,6 @@ public class Language {
         this.culture = culture;
     }
 
-    public Language(UUID id, String code, String culture) {
-        this.id = id;
-        this.code = code;
-        this.culture = culture;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -51,16 +45,8 @@ public class Language {
         return code;
     }
 
-    public void setCode(@Size(min = 2, max = 2, message = "code must have 2 characters") @Pattern(regexp = "^[A-Z]{2}$", message = "country code must have 2 uppercase letters") String code) {
-        this.code = code;
-    }
-
     public String getCulture() {
         return culture;
-    }
-
-    public void setCulture(String culture) {
-        this.culture = culture;
     }
 
     @Override

@@ -72,56 +72,28 @@ public class Address {
         return addressType;
     }
 
-    public void setAddressType(AddressType addressType) {
-        this.addressType = addressType;
-    }
-
     public String getAttention() {
         return attention;
-    }
-
-    public void setAttention(String attention) {
-        this.attention = attention;
     }
 
     public String getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getStateRegion() {
         return stateRegion;
     }
 
-    public void setStateRegion(String stateRegion) {
-        this.stateRegion = stateRegion;
-    }
-
     public String getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
     public Country getCountry() {
         return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 
     /*The address fields are all required and cannot be null, but validation is performed on payload reception, no null shall reach the persistence*/

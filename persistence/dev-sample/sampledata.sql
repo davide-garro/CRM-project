@@ -66,7 +66,7 @@ INSERT INTO dbo.address_type ([value]) VALUES
   ('LEGAL');
 
 -- 10) Countries (ISO-3166 alpha-3 subset)
-INSERT INTO dbo.country (code, country) VALUES
+INSERT INTO dbo.country (code, name) VALUES
   ('ITA', 'Italy'),
   ('USA', 'United States'),
   ('GBR', 'United Kingdom'),

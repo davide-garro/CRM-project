@@ -29,21 +29,12 @@ public class AddressType {
         this.value = value;
     }
 
-    public AddressType(UUID id, String value) {
-        this.id = id;
-        this.value = value;
-    }
-
     public UUID getId() {
         return id;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     @Override

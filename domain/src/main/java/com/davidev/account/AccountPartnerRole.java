@@ -1,23 +1,28 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "account_partner_role", schema = "dbo")
 public class AccountPartnerRole {
-    @EmbeddedId
-    private AccountPartnerRoleId accountPartnerRoleId = new AccountPartnerRoleId();
+
+    @Id
+    @Generated(event = EventType.INSERT)
+    @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("accountId")
     @JoinColumn(name = "account_id", nullable = false)
     private Account accountId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("partnerRoleId")
     @JoinColumn(name = "partner_role_id",nullable = false)
     private PartnerRole partnerRoleId;
 
@@ -33,8 +38,7 @@ public class AccountPartnerRole {
     protected AccountPartnerRole() {
     }
 
-    public AccountPartnerRole(AccountPartnerRoleId accountPartnerRoleId, Account accountId, PartnerRole partnerRoleId, boolean isActive, LocalDateTime validFrom, LocalDateTime validTo) {
-        this.accountPartnerRoleId = accountPartnerRoleId;
+    public AccountPartnerRole(Account accountId, PartnerRole partnerRoleId, boolean isActive, LocalDateTime validFrom, LocalDateTime validTo) {
         this.accountId = accountId;
         this.partnerRoleId = partnerRoleId;
         this.isActive = isActive;
@@ -42,52 +46,28 @@ public class AccountPartnerRole {
         this.validTo = validTo;
     }
 
-    public AccountPartnerRoleId getAccountPartnerRoleId() {
-        return accountPartnerRoleId;
-    }
-
-    public void setAccountPartnerRoleId(AccountPartnerRoleId accountPartnerRoleId) {
-        this.accountPartnerRoleId = accountPartnerRoleId;
+    public UUID getId() {
+        return id;
     }
 
     public Account getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Account accountId) {
-        this.accountId = accountId;
-    }
-
     public PartnerRole getPartnerRoleId() {
         return partnerRoleId;
-    }
-
-    public void setPartnerRoleId(PartnerRole partnerRoleId) {
-        this.partnerRoleId = partnerRoleId;
     }
 
     public boolean isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
-        this.validFrom = validFrom;
-    }
-
     public LocalDateTime getValidTo() {
         return validTo;
-    }
-
-    public void setValidTo(LocalDateTime validTo) {
-        this.validTo = validTo;
     }
 
     @Override
@@ -95,11 +75,11 @@ public class AccountPartnerRole {
         if (this == object) return true;
         if (org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(object)) return false;
         var that = (AccountPartnerRole) object;
-        return Objects.equals(accountPartnerRoleId, that.accountPartnerRoleId);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountPartnerRoleId);
+        return Objects.hash(id);
     }
 }
