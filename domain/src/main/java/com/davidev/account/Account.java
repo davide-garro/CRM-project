@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 import static com.davidev.util.Util.n;
 
 @Entity
@@ -20,7 +19,6 @@ import static com.davidev.util.Util.n;
 public class Account {
 
     @Id
-    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 
@@ -120,13 +118,13 @@ public class Account {
     @JoinColumn(name = "updated_by_id")
     private AppUser updatedBy;
 
-    @OneToMany(mappedBy = "account_id")
+    @OneToMany(mappedBy = "account")
     private List<AccountAddress> accountAddressList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account_id")
+    @OneToMany(mappedBy = "account")
     private List<AccountSalesArea> salesAreaList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account_id")
+    @OneToMany(mappedBy = "account")
     private List<AccountPartnerRole> partnerRoleList = new ArrayList<>();
 
     protected Account() {

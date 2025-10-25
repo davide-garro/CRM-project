@@ -1,9 +1,6 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Generated;
-import org.hibernate.generator.EventType;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -13,7 +10,6 @@ import java.util.UUID;
 @Table(name = "account_sales_area", schema = "dbo")
 public class AccountSalesArea {
     @Id
-    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 

@@ -1,9 +1,6 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Generated;
-import org.hibernate.generator.EventType;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -14,17 +11,16 @@ import java.util.UUID;
 public class AccountPartnerRole {
 
     @Id
-    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_id", nullable = false)
-    private Account accountId;
+    private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "partner_role_id",nullable = false)
-    private PartnerRole partnerRoleId;
+    private PartnerRole partnerRole;
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
@@ -38,9 +34,9 @@ public class AccountPartnerRole {
     protected AccountPartnerRole() {
     }
 
-    public AccountPartnerRole(Account accountId, PartnerRole partnerRoleId, boolean isActive, LocalDateTime validFrom, LocalDateTime validTo) {
-        this.accountId = accountId;
-        this.partnerRoleId = partnerRoleId;
+    public AccountPartnerRole(Account account, PartnerRole partnerRole, boolean isActive, LocalDateTime validFrom, LocalDateTime validTo) {
+        this.account = account;
+        this.partnerRole = partnerRole;
         this.isActive = isActive;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -50,12 +46,12 @@ public class AccountPartnerRole {
         return id;
     }
 
-    public Account getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public PartnerRole getPartnerRoleId() {
-        return partnerRoleId;
+    public PartnerRole getPartnerRole() {
+        return partnerRole;
     }
 
     public boolean isActive() {

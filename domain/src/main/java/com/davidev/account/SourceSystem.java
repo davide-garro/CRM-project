@@ -1,9 +1,6 @@
 package com.davidev.account;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Generated;
-import org.hibernate.generator.EventType;
-
 import java.util.Objects;
 import java.util.UUID;
 import static com.davidev.util.Util.n;
@@ -14,7 +11,6 @@ import static com.davidev.util.Util.n;
 public class SourceSystem {
 
     @Id
-    @Generated(event = EventType.INSERT)
     @Column(columnDefinition = "UNIQUEIDENTIFIER DEFAULT NEWSEQUENTIALID()", updatable = false, nullable = false)
     private UUID id;
 
