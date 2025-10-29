@@ -1,0 +1,3 @@
+Reported below some of the consideration i made while still developing the API partner role service:
+1)I need business related custom exceptions:
+I need to define custom exceptions for partner role not found in case of GET requests by id with empty response body

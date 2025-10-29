@@ -1,0 +1,22 @@
+Resume of the decision that i made today:
+While developing the partner role controller, which should handle the partner role related front end requests i
+stumbled upon the following cross roads:
+1)How should the API respond to the client in case of errors, what response format is it expected?
+I decided to define a global error response format that will be shared by all the other domain entities APIs, called ApiResponse.
+Since i do not feel comfortable with constructors i opted for a static nested class builder which feels more flexible and readable.
+I structured my response class (ApiResponse) following the indications of the RFC 7807 Problem Details with of course some adaptation,
+like avoiding the type for now since it requires a documentation page.
+2)How should i handle the Patch Request?
+Patches involves resource versioning and a locking strategy. I imagine my backend api to be use by a limited number of high rank employees
+for the write, update and delete operations, rarely working at the same time on the same picklist resource. I decided to adopt a
+Optimistic Locking strategy( conflicts are supposed to be rare) and use for the optimistic concurrency version the SQL Server ROWVERSIION
+data type which it's essentially a binary(8) array (64 bits represented for readability as an hex), which it's db managed, even for no ops.
+If the Etag do not match a 412 Precondition Failed shall be returned by the API.
+3)How should the API respond in case of errors and successful request processing?
+This may seems as a repetition of the 1) point but it's rather a more practical consequence of dealing with a controller that now returns
+a business object that has no wrapper around it. It may be suitable if everything it's supposed to be fine all the time, but when something
+goes wrong while processing the request exceptions bubble up to the controller and what should i do? Having a wrapper it's good for
+having uniform response but it feel cumbersome, so i decide to let exception bubble up to a global exception handler that will managed the
+error response, so i'll have a simple response object (no envelope) while having my back covered on exceptions.
+I decided to use th more flexible @HandlingExceptions annotations with a class mounted by the @ControllerAdvice annotation, rather than extending
+the ResponseEntityExceptionHandler and use the inherited default methods.

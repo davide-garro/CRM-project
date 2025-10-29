@@ -31,6 +31,22 @@ public class AccountPartnerRole {
     @Column(name = "valid_to", nullable = false)
     private LocalDateTime validTo;
 
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public void setPartnerRole(PartnerRole partnerRole) {
+        this.partnerRole = partnerRole;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setValidTo(LocalDateTime validTo) {
+        this.validTo = validTo;
+    }
+
     protected AccountPartnerRole() {
     }
 

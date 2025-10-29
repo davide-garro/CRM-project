@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ApiResponse {
+public class ErrorResponse {
     private final String title;
     private final int status;
     private final String details;
@@ -75,7 +75,7 @@ public class ApiResponse {
         }
     }
 
-    private ApiResponse(String title, int status, String details, URI instance, String traceId, URI path, LocalDateTime timestamp, List<Error> errors) {
+    private ErrorResponse(String title, int status, String details, URI instance, String traceId, URI path, LocalDateTime timestamp, List<Error> errors) {
         this.title = Objects.requireNonNull(title,"title cannot be null");
         this.status = status;
         this.details = details;
@@ -136,11 +136,11 @@ public class ApiResponse {
             this.errors.add(new Error(field, code, message));
             return this;
         }
-        public ApiResponse build(){
+        public ErrorResponse build(){
             if(status <200 || status>599){
                 throw new IllegalArgumentException("Status must be between 200 and 599");
             }
-            return new ApiResponse(title,status,details,instance,traceId,path,timestamp,errors);
+            return new ErrorResponse(title,status,details,instance,traceId,path,timestamp,errors);
         }
     }
 }

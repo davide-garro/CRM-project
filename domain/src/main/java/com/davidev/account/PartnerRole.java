@@ -19,12 +19,22 @@ public class PartnerRole {
     @Column(name = "[description]")
     private String description;
 
+    @Version
+    private byte[] etag;
+
     protected PartnerRole() {
     }
 
     public PartnerRole(String code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    public PartnerRole(UUID id, String code, String description, byte[] etag) {
+        this.id = id;
+        this.code = code;
+        this.description = description;
+        this.etag = etag;
     }
 
     public UUID getId() {
@@ -37,6 +47,18 @@ public class PartnerRole {
 
     public String getDescription() {
         return description;
+    }
+
+    public byte[] getEtag() {
+        return etag;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

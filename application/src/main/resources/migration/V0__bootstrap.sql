@@ -98,7 +98,8 @@ CREATE UNIQUE INDEX UX_sales_area_dims ON dbo.sales_area(market, channel, sales_
 CREATE TABLE dbo.partner_role (
   id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
   code VARCHAR(32) NOT NULL UNIQUE,
-  [description] VARCHAR(255) NULL
+  [description] VARCHAR(255) NULL,
+  etag BIGINT NOT NULL ROWVERSION
 );
 
 CREATE TABLE dbo.account (
