@@ -1,4 +1,4 @@
-package com.davidev.account.exception;
+package com.davidev.exception;
 
 public class PartnerRoleNotFoundException extends RuntimeException {
     public PartnerRoleNotFoundException(String message) {

@@ -1,4 +1,4 @@
-package com.davidev.controller;
+package com.davidev.controller.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

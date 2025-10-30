@@ -2,8 +2,8 @@ package com.davidev;
 
 import com.davidev.account.AccountPartnerRole;
 import com.davidev.account.PartnerRole;
-import com.davidev.account.exception.PartnerRoleNotFoundException;
-import com.davidev.account.exception.PreconditionFailedException;
+import com.davidev.exception.PartnerRoleNotFoundException;
+import com.davidev.exception.PreconditionFailedException;
 import com.davidev.repository.PartnerRoleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;

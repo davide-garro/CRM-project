@@ -1,4 +1,4 @@
-package com.davidev.account.exception;
+package com.davidev.exception;
 
 public class PreconditionFailedException extends RuntimeException {
     public PreconditionFailedException(String message) {
