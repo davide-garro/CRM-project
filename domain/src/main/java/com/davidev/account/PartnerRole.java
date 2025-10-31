@@ -30,24 +30,24 @@ public class PartnerRole {
     @JoinColumn(name = "created_by_id", nullable = false, updatable = false)
     private AppUser createdBy;
 
-    @Column(name = "updated_at", nullable = false, updatable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_id", nullable = false, updatable = false)
+    @JoinColumn(name = "updated_by_id")
     private AppUser updatedBy;
 
-    @Column(name = "is_active", nullable = false, updatable = false)
+    @Column(name = "is_active")
     private boolean isActive;
 
-    @Column(name = "deleted_at", nullable = false, updatable = false)
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deleted_by_id", nullable = false, updatable = false)
+    @JoinColumn(name = "deleted_by_id")
     private AppUser deletedBy;
 
-    @Column(name = "deleted_reason", nullable = false, updatable = false)
+    @Column(name = "deleted_reason")
     private String deletedReason;
 
     protected PartnerRole() {

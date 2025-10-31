@@ -69,8 +69,8 @@ public class PartnerRoleController {
             return new PatchPartnerRoleDto(updated.getId(),updated.getCode(), updated.getDescription(), Arrays.toString(updated.getEtag()));
     }
 
-    @DeleteMapping(value = "/partner-roles")
-    public void deletePartnerRole(UUID id){
-
+    @PostMapping(value = "/partner-roles/{id}")
+    public void deletePartnerRole(@PathVariable(value = "id") UUID id, @RequestBody String deletedReason){
+        partnerRoleService.deletePartnerRole(id, deletedReason);
     }
 }

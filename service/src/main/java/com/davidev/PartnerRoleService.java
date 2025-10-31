@@ -4,6 +4,7 @@ import com.davidev.account.AccountPartnerRole;
 import com.davidev.account.PartnerRole;
 import com.davidev.exception.PartnerRoleNotFoundException;
 import com.davidev.exception.PreconditionFailedException;
+import com.davidev.repository.AccountPartnerRoleRepository;
 import com.davidev.repository.PartnerRoleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +24,11 @@ public class PartnerRoleService {
 
     private final PartnerRoleRepository partnerRoleRepository;
 
-    public PartnerRoleService(PartnerRoleRepository partnerRoleRepository) {
+    private final AccountPartnerRoleRepository accountPartnerRoleRepository;
+
+    public PartnerRoleService(PartnerRoleRepository partnerRoleRepository, AccountPartnerRoleRepository accountPartnerRoleRepository) {
         this.partnerRoleRepository = partnerRoleRepository;
+        this.accountPartnerRoleRepository = accountPartnerRoleRepository;
     }
 
     public Optional<PartnerRole> findPartnerRoleById(UUID id){
@@ -54,19 +57,25 @@ public class PartnerRoleService {
         return partnerRoleRepository.save(found);
     }
     @Transactional
-    public void deletePartnerRole(UUID id){
+    public void deletePartnerRole(UUID id, String deleteReason){
         Optional<PartnerRole> found = partnerRoleRepository.findById(id);
         if(found.isEmpty()){
             throw new PartnerRoleNotFoundException("No partner role found for id: " + id);
         }
+        found.get().setActive(false);
+        found.get().setDeletedReason(deleteReason);
+        found.get().setDeletedAt(LocalDateTime.now());
+        partnerRoleRepository.save(found.get());
+        /*Set the deletedBy once the security domain management has been completed, need the JpaAuditing and Spring Security*/
         List<AccountPartnerRole> dependencies = partnerRoleRepository.retrievePartnerRoleDependencies(id);
-        if(dependencies.isEmpty()){
-            partnerRoleRepository.deleteById(id);
-            return;
+        if(!dependencies.isEmpty()){
+            dependencies.forEach(apr -> {
+                apr.setActive(false);
+                apr.setValidTo(LocalDateTime.now());
+                Iterable<AccountPartnerRole> iterable =
+                accountPartnerRoleRepository.saveAll(dependencies);
+            });
         }
-        dependencies.forEach(apr -> {
-            apr.setActive(false);
-            apr.setValidTo(LocalDateTime.now());
-        });
+        return;
     }
 }
