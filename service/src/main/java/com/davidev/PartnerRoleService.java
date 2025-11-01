@@ -6,24 +6,22 @@ import com.davidev.exception.PartnerRoleNotFoundException;
 import com.davidev.exception.PreconditionFailedException;
 import com.davidev.repository.AccountPartnerRoleRepository;
 import com.davidev.repository.PartnerRoleRepository;
+import com.davidev.repository.PartnerRoleSpecifications;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PartnerRoleService {
 
     private final PartnerRoleRepository partnerRoleRepository;
-
     private final AccountPartnerRoleRepository accountPartnerRoleRepository;
 
     public PartnerRoleService(PartnerRoleRepository partnerRoleRepository, AccountPartnerRoleRepository accountPartnerRoleRepository) {
@@ -67,7 +65,7 @@ public class PartnerRoleService {
         found.get().setDeletedAt(LocalDateTime.now());
         partnerRoleRepository.save(found.get());
         /*Set the deletedBy once the security domain management has been completed, need the JpaAuditing and Spring Security*/
-        List<AccountPartnerRole> dependencies = partnerRoleRepository.retrievePartnerRoleDependencies(id);
+        List<AccountPartnerRole> dependencies = accountPartnerRoleRepository.findByPartnerRoleIdAndIsActiveTrue(id);
         if(!dependencies.isEmpty()){
             dependencies.forEach(apr -> {
                 apr.setActive(false);
@@ -77,5 +75,19 @@ public class PartnerRoleService {
             });
         }
         return;
+    }
+
+    public Page<PartnerRole> searchFilterService(String searchTerm, String code, Boolean isActive, Pageable pageable){
+        List<Specification<PartnerRole>> specs = new ArrayList<>();
+        if(searchTerm != null && !searchTerm.isEmpty()){
+            specs.add(PartnerRoleSpecifications.searchByCode(code));
+        }
+        if(code != null && !code.isEmpty()){
+            specs.add(PartnerRoleSpecifications.hasCode(code));
+        }
+        if(isActive != null){
+            specs.add(PartnerRoleSpecifications.isPartnerRoleActive(isActive));
+        }
+        return partnerRoleRepository.findAll(Specification.allOf(specs), pageable);
     }
 }

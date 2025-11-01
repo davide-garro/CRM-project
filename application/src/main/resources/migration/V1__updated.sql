@@ -55,3 +55,6 @@ ADD CONSTRAINT CK_partner_role_deleted CHECK (
 ALTER TABLE dbo.partner_role
     ADD CONSTRAINT CK_partner_role_active_deleted CHECK((is_active = 1 AND deleted_at IS NULL) OR (is_active=0 AND deleted_at IS NOT NULL));
 CREATE INDEX IX_partner_role_active ON dbo.partner_role(is_active) INCLUDE (id) WHERE is_active = 1;
+
+CREATE INDEX IX_partner_role_code ON dbo.partner_role(code);
+CREATE INDEX IX_partner_role_active ON dbo.partner_role(is_active);

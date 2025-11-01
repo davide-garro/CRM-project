@@ -6,6 +6,8 @@ import com.davidev.controller.dto.PartnerRoleDto;
 import com.davidev.controller.dto.PatchPartnerRoleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
@@ -29,12 +31,21 @@ public class PartnerRoleController {
                         .withId(p.getId())
                         .withCode(p.getCode())
                         .withDescription(p.getDescription())
+                        .withEtag(Arrays.toString(p.getEtag()))
+                        .isActive(p.isActive())
+                        .createdAt(p.getCreatedAt())
+                        .createdBy(p.getCreatedBy().getFullName())
+                        .updatedAt(p.getUpdatedAt())
+                        .updatedBy(p.getUpdatedBy().getFullName())
+                        .deletedAt(p.getDeletedAt())
+                        .deletedBy(p.getDeletedBy().getFullName())
+                        .deletedReason(p.getDeletedReason())
                         .build()
                 );
     }
 
-    @GetMapping(value = "/partner-roles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<PartnerRoleDto> getPartnerRoles(Pageable pageable){
+    @GetMapping(value = "/partner-roles/distinct", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<PartnerRoleDto> getDistinctPartnerRoles(Pageable pageable){
         return partnerRoleService
                 .paginatedReadAll(
                         pageable.getPageNumber(),
@@ -45,6 +56,15 @@ public class PartnerRoleController {
                                 .withId(p.getId())
                                 .withCode(p.getCode())
                                 .withDescription(p.getDescription())
+                                .withEtag(Arrays.toString(p.getEtag()))
+                                .isActive(p.isActive())
+                                .createdAt(p.getCreatedAt())
+                                .createdBy(p.getCreatedBy().getFullName())
+                                .updatedAt(p.getUpdatedAt())
+                                .updatedBy(p.getUpdatedBy().getFullName())
+                                .deletedAt(p.getDeletedAt())
+                                .deletedBy(p.getDeletedBy().getFullName())
+                                .deletedReason(p.getDeletedReason())
                                 .build()
                         );
     }
@@ -55,22 +75,59 @@ public class PartnerRoleController {
                 .withId(created.getId())
                 .withCode(created.getCode())
                 .withDescription(created.getDescription())
+                .withEtag(Arrays.toString(created.getEtag()))
+                .isActive(created.isActive())
+                .createdAt(created.getCreatedAt())
+                .createdBy(created.getCreatedBy().getFullName())
+                .updatedAt(created.getUpdatedAt())
+                .updatedBy(created.getUpdatedBy().getFullName())
+                .deletedAt(created.getDeletedAt())
+                .deletedBy(created.getDeletedBy().getFullName())
+                .deletedReason(created.getDeletedReason())
                 .build();
     }
 
     @PatchMapping(value = "/partner-roles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PatchPartnerRoleDto patchPartnerRole(@RequestBody PatchPartnerRoleDto patchPartnerRoleDto){
+    public PartnerRoleDto patchPartnerRole(@RequestBody PatchPartnerRoleDto patchPartnerRoleDto){
             PartnerRole updated =  partnerRoleService.updatePartnerRole(
                     patchPartnerRoleDto.id(),
                     patchPartnerRoleDto.code(),
                     patchPartnerRoleDto.description(),
                     patchPartnerRoleDto.etag()
             );
-            return new PatchPartnerRoleDto(updated.getId(),updated.getCode(), updated.getDescription(), Arrays.toString(updated.getEtag()));
+        return PartnerRoleDto.builder()
+                .withId(updated.getId())
+                .withCode(updated.getCode())
+                .withDescription(updated.getDescription())
+                .withEtag(Arrays.toString(updated.getEtag()))
+                .isActive(updated.isActive())
+                .createdAt(updated.getCreatedAt())
+                .createdBy(updated.getCreatedBy().getFullName())
+                .updatedAt(updated.getUpdatedAt())
+                .updatedBy(updated.getUpdatedBy().getFullName())
+                .deletedAt(updated.getDeletedAt())
+                .deletedBy(updated.getDeletedBy().getFullName())
+                .deletedReason(updated.getDeletedReason())
+                .build();
     }
 
     @PostMapping(value = "/partner-roles/{id}")
     public void deletePartnerRole(@PathVariable(value = "id") UUID id, @RequestBody String deletedReason){
         partnerRoleService.deletePartnerRole(id, deletedReason);
+    }
+
+    @GetMapping(value = "/partner-roles")
+    public Page<PartnerRoleDto> getPartnerRoleSearchedFiltered(
+            @RequestParam(value = "searchTerm", required = false) String searchTerm,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "isActive", required = false) Boolean isActive,
+            @PageableDefault(sort = {"updatedAt"}, direction = Sort.Direction.DESC) Pageable pageable){
+        return partnerRoleService
+                .searchFilterService(searchTerm,code,isActive,pageable)
+                .map(p->PartnerRoleDto.builder()
+                                .withId(p.getId())
+                                .withCode(p.getCode())
+                                .withDescription(p.getDescription())
+                                .build());
     }
 }
