@@ -116,7 +116,7 @@ public class PartnerRoleController {
         partnerRoleService.deletePartnerRole(id, deletedReason);
     }
 
-    @GetMapping(value = "/partner-roles")
+    @GetMapping(value = "/partner-roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<PartnerRoleDto> getPartnerRoleSearchedFiltered(
             @RequestParam(value = "searchTerm", required = false) String searchTerm,
             @RequestParam(value = "code", required = false) String code,
@@ -125,9 +125,18 @@ public class PartnerRoleController {
         return partnerRoleService
                 .searchFilterService(searchTerm,code,isActive,pageable)
                 .map(p->PartnerRoleDto.builder()
-                                .withId(p.getId())
-                                .withCode(p.getCode())
-                                .withDescription(p.getDescription())
-                                .build());
+                        .withId(p.getId())
+                        .withCode(p.getCode())
+                        .withDescription(p.getDescription())
+                        .withEtag(Arrays.toString(p.getEtag()))
+                        .isActive(p.isActive())
+                        .createdAt(p.getCreatedAt())
+                        .createdBy(p.getCreatedBy().getFullName())
+                        .updatedAt(p.getUpdatedAt())
+                        .updatedBy(p.getUpdatedBy().getFullName())
+                        .deletedAt(p.getDeletedAt())
+                        .deletedBy(p.getDeletedBy().getFullName())
+                        .deletedReason(p.getDeletedReason())
+                        .build());
     }
 }
