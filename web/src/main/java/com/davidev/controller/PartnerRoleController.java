@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -119,7 +120,7 @@ public class PartnerRoleController {
     @GetMapping(value = "/partner-roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<PartnerRoleDto> getPartnerRoleSearchedFiltered(
             @RequestParam(value = "searchTerm", required = false) String searchTerm,
-            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "code", required = false) List<String> code,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @PageableDefault(sort = {"updatedAt"}, direction = Sort.Direction.DESC) Pageable pageable){
         return partnerRoleService
